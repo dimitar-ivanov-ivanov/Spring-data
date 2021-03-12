@@ -6,6 +6,8 @@ import bookshop.system.enums.BookEdition;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity(name = "book")
 @Table(name = "books")
@@ -61,7 +63,16 @@ public class Book {
     @JoinColumn(name = "author_id", referencedColumnName = "author_id")
     private Author author;
 
+    @ManyToMany
+    @JoinTable(
+            name = "books_categories",
+            joinColumns = {@JoinColumn(name = "book_id")},
+            inverseJoinColumns = {@JoinColumn(name = "category_id")}
+    )
+    private Set<Category> categories;
+
     public Book() {
+        categories = new HashSet<>();
     }
 
     public Book
@@ -74,6 +85,7 @@ public class Book {
         this.copies = copies;
         this.releaseDate = releaseDate;
         this.ageRestriction = ageRestriction;
+        categories = new HashSet<>();
     }
 
     public long getId() {
@@ -150,5 +162,9 @@ public class Book {
 
     public void setAuthor(Author author) {
         this.author = author;
+    }
+
+    public Set<Category> getCategories() {
+        return categories;
     }
 }

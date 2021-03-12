@@ -1,11 +1,13 @@
 package bookshop.system.runners;
 
 import bookshop.system.models.Author;
+import bookshop.system.models.Category;
 import bookshop.system.repositories.AuthorRepository;
 import bookshop.system.enums.AgeRestriction;
 import bookshop.system.models.Book;
 import bookshop.system.enums.BookEdition;
 import bookshop.system.repositories.BookRepository;
+import bookshop.system.repositories.CategoriesRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,13 +21,16 @@ public class Runner {
 
     @Bean
     CommandLineRunner commandLineRunner
-            (BookRepository bookRepository, AuthorRepository authorRepository) {
+            (BookRepository bookRepository, AuthorRepository authorRepository,
+             CategoriesRepository categoriesRepository) {
         return args -> {
 
             Author dimitar = new Author(
                     "Dimitar",
                     "Ivanov"
             );
+
+            Category category = new Category("Horror");
 
             Book book1 = new Book(
                     "Crime and Punishment",
@@ -48,9 +53,13 @@ public class Runner {
             );
 
             authorRepository.save(dimitar);
+            categoriesRepository.save(category);
 
             book1.setAuthor(dimitar);
             book2.setAuthor(dimitar);
+            book1.getCategories().add(category);
+            book2.getCategories().add(category);
+
             bookRepository.saveAll(List.of(book1, book2));
         };
     }
