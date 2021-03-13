@@ -34,10 +34,35 @@ public class Runner {
     CommandLineRunner commandLineRunner
             (BookService bookService, AuthorService authorService, CategoryService categoryService) {
         return args -> {
-            seedAuthors(authorService);
-            seedCategories(categoryService);
-            seedBook(bookService, authorService, categoryService);
+            //getAllBooksReleasedAfter2000(bookService);
+            //getAuthorsWithAtLeastOneBookBefore1990(authorService);
+            //getAuthorsOrderedByBookCount(authorService);
+            getBooksByGeorgeOrwell(bookService);
+            //seedAuthors(authorService);
+            //seedCategories(categoryService);
+            //seedBook(bookService, authorService, categoryService);
         };
+    }
+
+    private void getBooksByGeorgeOrwell(BookService bookService) {
+        bookService.getAllBooksFromGeorgePowell()
+                .forEach(System.out::println);
+    }
+
+    private void getAuthorsOrderedByBookCount(AuthorService authorService) {
+        authorService.getAuthorsOrderedByNumberOfWrittenBooks()
+                .forEach(System.out::println);
+    }
+
+    private void getAuthorsWithAtLeastOneBookBefore1990(AuthorService authorService) {
+        authorService.getAuthorsWithAtLeastOneBookAfter1990()
+                .forEach(System.out::println);
+    }
+
+    private void getAllBooksReleasedAfter2000(BookService bookService) {
+        LocalDate date = LocalDate.of(2000, 12, 31);
+        bookService.getTitlesOfAllBooksReleasedAfter(date)
+                .forEach(System.out::println);
     }
 
     private void seedBook(BookService bookService, AuthorService authorService, CategoryService categoryService) {

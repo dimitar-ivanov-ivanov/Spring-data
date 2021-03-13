@@ -6,8 +6,11 @@ import bookshop.system.services.interfaces.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 public class AuthorServiceImpl implements AuthorService {
@@ -28,5 +31,35 @@ public class AuthorServiceImpl implements AuthorService {
         List<Author> authors = authorRepository.findAll();
         int random = (int) (Math.random() * (authors.size()));
         return authors.get(random);
+    }
+
+    @Override
+    public List<String> getAuthorsWithAtLeastOneBookAfter1990() {
+        return authorRepository
+                .findAll()
+                .stream()
+                .filter(author ->
+                        author.getBooks()
+                                .stream()
+                                .filter(book -> book.getReleaseDate().getYear() < 1990)
+                                .collect(Collectors.toList())
+                                .size() >= 1
+                )
+                .map(author -> author.getFirstName() + " " + author.getLastName())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AuthorWithBookCount> getAuthorsOrderedByNumberOfWrittenBooks() {
+        return authorRepository
+                .findAll()
+                .stream()
+                .map(author -> new AuthorWithBookCount(
+                        author.getFirstName(),
+                        author.getLastName(),
+                        author.getBooks().size()
+                ))
+                .sorted(Collections.reverseOrder())
+                .collect(Collectors.toList());
     }
 }
