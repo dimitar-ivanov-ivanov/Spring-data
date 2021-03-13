@@ -25,10 +25,10 @@ public class Author {
     private String firstName;
 
     @Column(
-            name = "second_name",
+            name = "last_name",
             nullable = false
     )
-    private String secondName;
+    private String lastName;
 
     @OneToMany(mappedBy = "author")
     private Set<Book> books;
@@ -37,9 +37,9 @@ public class Author {
         this.books = new HashSet<>();
     }
 
-    public Author(String firstName, String secondName) {
+    public Author(String firstName, String lastName) {
         this.firstName = firstName;
-        this.secondName = secondName;
+        this.lastName = lastName;
         this.books = new HashSet<>();
     }
 
@@ -59,11 +59,11 @@ public class Author {
         this.firstName = firstName;
     }
 
-    public String getSecondName() {
-        return secondName;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setSecondName(String secondName) {
-        this.secondName = secondName;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }
