@@ -116,4 +116,19 @@ public class BookServiceImpl implements BookService {
                 .map(book -> book.getTitle())
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<String> getBooksByAuthorWhoseLastNameStartsWith(String str) {
+        return this.bookRepository
+                .getBooksByAuthorWhoseLastNameStartsWith(str)
+                .stream()
+                .map(book -> book.getTitle())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public int countBooksWhoseTitleIsLongerThan(int length) {
+        return this.bookRepository
+                .getCountBooksWhoseTitleIsLongerThan(length);
+    }
 }

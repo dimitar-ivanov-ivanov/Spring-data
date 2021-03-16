@@ -55,11 +55,27 @@ public class Runner {
             //getBooksWithReleaseDateLessThan();
             //getAuthorsByFirstNameEndsWith();
             //getBooksWithTitleContaining();
-            
+            //getBooksWithAuthorLastNameStartingWith();
+            countBooksWhoseTitleIsLongerThan();
             //seedAuthors(authorService);
             //seedCategories(categoryService);
             //seedBook(bookService, authorService, categoryService);
         };
+    }
+
+    private void countBooksWhoseTitleIsLongerThan() {
+        Scanner scanner = new Scanner(System.in);
+        int length = Integer.parseInt(scanner.nextLine());
+        int bookCount = bookService.countBooksWhoseTitleIsLongerThan(length);
+        System.out.println(bookCount);
+    }
+
+    private void getBooksWithAuthorLastNameStartingWith() {
+        Scanner scanner = new Scanner(System.in);
+        String word = scanner.nextLine();
+
+        bookService.getBooksByAuthorWhoseLastNameStartsWith(word)
+                .forEach(System.out::println);
     }
 
     private void getBooksWithTitleContaining() {

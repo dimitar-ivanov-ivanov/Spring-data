@@ -25,9 +25,13 @@ public interface BookService {
 
     List<BookWithTitleAndPrice> findAllByPriceLowerThanAndHigherThan(final BigDecimal lowerLimit, final BigDecimal upperLimit);
 
-    List<String> getBooksByReleaseDateYearNotEqualTo(@Param("year") final int year);
+    List<String> getBooksByReleaseDateYearNotEqualTo(final int year);
 
     List<BookWIthTitlePriceAndEditionType> getBooksByReleaseDateIsLessThan(final LocalDate date);
 
     List<String> getBooksByTitleContaining(final String str);
+
+    List<String> getBooksByAuthorWhoseLastNameStartsWith(final String str);
+
+    int countBooksWhoseTitleIsLongerThan(final int length);
 }
