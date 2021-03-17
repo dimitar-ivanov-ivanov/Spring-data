@@ -12,12 +12,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.repository.query.Param;
 
 import java.io.*;
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.Month;
+import java.time.ZoneId;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Scanner;
 
 @Configuration
@@ -56,11 +61,49 @@ public class Runner {
             //getAuthorsByFirstNameEndsWith();
             //getBooksWithTitleContaining();
             //getBooksWithAuthorLastNameStartingWith();
-            countBooksWhoseTitleIsLongerThan();
+            //countBooksWhoseTitleIsLongerThan();
+            //countBookCopiesByAuthor();
+            //increaseBookCopies();
+            deleteBooksWhoseCopiesAreLessThan();
             //seedAuthors(authorService);
             //seedCategories(categoryService);
             //seedBook(bookService, authorService, categoryService);
         };
+    }
+
+    private void deleteBooksWhoseCopiesAreLessThan() {
+        Scanner scanner = new Scanner(System.in);
+        long copies = Long.parseLong(scanner.nextLine());
+
+        int deletedBooks = bookService
+                .deleteBooksWhoseCopiesAreLessThan(copies);
+
+        System.out.println(deletedBooks + " books were deleted");
+    }
+
+    private void increaseBookCopies() throws ParseException {
+        Scanner scanner = new Scanner(System.in);
+        String word = scanner.nextLine();
+        String[] args = word.split(" ");
+        int day = Integer.parseInt(args[0]);
+        int year = Integer.parseInt(args[2]);
+        int copies = Integer.parseInt(scanner.nextLine());
+
+        String pattern = "dd MMM yyyy";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        LocalDate date = simpleDateFormat.parse(word)
+                .toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+
+        int totalBooks = bookService.increaseBookCopies(copies, date);
+        System.out.println(totalBooks * copies);
+    }
+
+    private void countBookCopiesByAuthor() {
+        authorService
+                .getTotalNumberOfBookCopiesByAuthor()
+                .forEach(System.out::println);
     }
 
     private void countBooksWhoseTitleIsLongerThan() {
@@ -104,7 +147,6 @@ public class Runner {
 
         bookService.getBooksByReleaseDateIsLessThan(date)
                 .forEach(System.out::println);
-
     }
 
     private void getBooksWithReleaseDateYearNotEqualTo() {

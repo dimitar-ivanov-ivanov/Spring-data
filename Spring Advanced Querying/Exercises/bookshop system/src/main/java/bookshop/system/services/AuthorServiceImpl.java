@@ -72,4 +72,10 @@ public class AuthorServiceImpl implements AuthorService {
                 })
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<String> getTotalNumberOfBookCopiesByAuthor() {
+        return this.authorRepository
+                .getTotalNumberOfBookCopiesByAuthor();
+    }
 }

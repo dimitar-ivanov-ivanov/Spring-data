@@ -34,4 +34,8 @@ public interface BookService {
     List<String> getBooksByAuthorWhoseLastNameStartsWith(final String str);
 
     int countBooksWhoseTitleIsLongerThan(final int length);
+
+    int increaseBookCopies(@Param("cnt") long count, @Param("date") LocalDate date);
+
+    int deleteBooksWhoseCopiesAreLessThan(long count);
 }

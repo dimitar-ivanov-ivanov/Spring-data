@@ -131,4 +131,16 @@ public class BookServiceImpl implements BookService {
         return this.bookRepository
                 .getCountBooksWhoseTitleIsLongerThan(length);
     }
+
+    @Override
+    public int increaseBookCopies(long count, LocalDate date) {
+        return this.bookRepository
+                .increaseBookCopies(count, date);
+    }
+
+    @Override
+    public int deleteBooksWhoseCopiesAreLessThan(long count) {
+        return this.bookRepository
+                .deleteBooksWhoseCopiesAreLessThan(count);
+    }
 }

@@ -15,4 +15,6 @@ public interface AuthorService {
     List<AuthorWithBookCount> getAuthorsOrderedByNumberOfWrittenBooks();
 
     List<String> getAuthorsByFirstNameEndsWith(final String endsWith);
+
+    List<String> getTotalNumberOfBookCopiesByAuthor();
 }

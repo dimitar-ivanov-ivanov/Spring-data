@@ -4,10 +4,12 @@ import bookshop.system.enums.AgeRestriction;
 import bookshop.system.enums.BookEdition;
 import bookshop.system.models.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -38,4 +40,14 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @Query("SELECT COUNT(b) FROM book AS b " +
             "WHERE LENGTH(b.title) > :length ")
     int getCountBooksWhoseTitleIsLongerThan(@Param("length") final int count);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE book AS b SET b.copies = b.copies + :cnt WHERE b.releaseDate > :date")
+    int increaseBookCopies(@Param("cnt") long count, @Param("date") LocalDate date);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM book AS b WHERE b.copies < :copies")
+    int deleteBooksWhoseCopiesAreLessThan(@Param("copies") long count);
 }
