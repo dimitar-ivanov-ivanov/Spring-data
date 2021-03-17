@@ -16,7 +16,7 @@ BEGIN
 END 
 $$ DELIMITER ;
 
-CALL udp_find_books_by_author('Amanda', 'Rice', @books);
-SELECT @books;
+/*CALL udp_find_books_by_author('Amanda', 'Rice', @books);
+SELECT @books;*/
 
 

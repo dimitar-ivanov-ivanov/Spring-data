@@ -6,6 +6,15 @@ import java.util.Set;
 
 @Entity(name = "author")
 @Table(name = "authors")
+@NamedStoredProcedureQuery(
+        name = "udp_find_books_by_author",
+        procedureName = "udp_find_books_by_author",
+        parameters = {
+                @StoredProcedureParameter(mode = ParameterMode.IN, name = "first_name", type = String.class),
+                @StoredProcedureParameter(mode = ParameterMode.IN, name = "last_name", type = String.class),
+                @StoredProcedureParameter(mode = ParameterMode.OUT, name = "books_count", type = Integer.class)
+        }
+)
 public class Author {
 
     @Id

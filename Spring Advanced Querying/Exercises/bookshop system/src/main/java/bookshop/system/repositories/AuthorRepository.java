@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 
+import javax.transaction.Transactional;
+
 public interface AuthorRepository extends JpaRepository<Author, Long> {
 
     List<Author> getAuthorsByFirstNameEndsWith(final String endsWith);
@@ -19,5 +21,6 @@ public interface AuthorRepository extends JpaRepository<Author, Long> {
     List<String> getTotalNumberOfBookCopiesByAuthor();
 
     @Procedure(name = "udp_find_books_by_author")
+    @Transactional
     Integer getAuthorBooksCount(@Param("first_name") String first_name, @Param("last_name") String last_name);
 }

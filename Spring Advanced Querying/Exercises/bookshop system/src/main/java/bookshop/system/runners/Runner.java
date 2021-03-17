@@ -64,11 +64,21 @@ public class Runner {
             //countBooksWhoseTitleIsLongerThan();
             //countBookCopiesByAuthor();
             //increaseBookCopies();
-            deleteBooksWhoseCopiesAreLessThan();
+            //deleteBooksWhoseCopiesAreLessThan();
+            getBooksCountByAuthorNameProcedure();
             //seedAuthors(authorService);
             //seedCategories(categoryService);
             //seedBook(bookService, authorService, categoryService);
         };
+    }
+
+    private void getBooksCountByAuthorNameProcedure() {
+        Scanner scanner = new Scanner(System.in);
+        String[] args = scanner.nextLine().split(" ");
+        String firstName = args[0];
+        String lastName = args[1];
+        Integer books_count = this.authorService.getAuthorBooksCount(firstName, lastName);
+        System.out.println(books_count);
     }
 
     private void deleteBooksWhoseCopiesAreLessThan() {

@@ -17,4 +17,6 @@ public interface AuthorService {
     List<String> getAuthorsByFirstNameEndsWith(final String endsWith);
 
     List<String> getTotalNumberOfBookCopiesByAuthor();
+
+    Integer getAuthorBooksCount(final String firstName, final String lastName);
 }
