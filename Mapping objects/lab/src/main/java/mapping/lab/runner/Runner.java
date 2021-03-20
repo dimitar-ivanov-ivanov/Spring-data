@@ -91,8 +91,15 @@ public class Runner {
                     ManagerDto::setEmployeesInChargeOf
             );
       */
+
             System.out.println(employeeDto);
             System.out.println(managerDto);
+
+            employeeRepository
+                    .getEmployeesByBirthdayBeforeOrderBySalaryDesc(LocalDate.of(1990, 1, 1))
+                    .stream()
+                    .map(e -> mapper.map(e, EmployeeDto.class))
+                    .forEach(System.out::println);
         };
     }
 
