@@ -1,9 +1,10 @@
 package mapping.lab.entities;
 
-
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "employees")
@@ -22,21 +23,39 @@ public class Employee {
     @Column(name = "salary")
     private BigDecimal salary;
 
-    @Column(name = "date")
-    private LocalDate date;
+    @Column(name = "birthday")
+    private LocalDate birthday;
 
-    @Column(name = "address")
-    private String address;
+    @ManyToOne
+    private Address address;
+
+    @Column(
+            name = "is_on_holiday",
+            nullable = true
+    )
+    private boolean isOnHoliday;
+
+    @ManyToOne
+    private Employee manager;
+
+    @OneToMany(
+            mappedBy = "manager",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER
+    )
+    private Set<Employee> employeesInChargeOf;
 
     public Employee() {
+        employeesInChargeOf = new HashSet<>();
     }
 
-    public Employee(String firstName, String lastName, BigDecimal salary, LocalDate date, String address) {
+    public Employee(String firstName, String lastName, BigDecimal salary, LocalDate birthday, Address address) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.salary = salary;
-        this.date = date;
+        this.birthday = birthday;
         this.address = address;
+        employeesInChargeOf = new HashSet<>();
     }
 
     public long getId() {
@@ -71,19 +90,52 @@ public class Employee {
         this.salary = salary;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getBirthday() {
+        return birthday;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setBirthday(LocalDate birthday) {
+        this.birthday = birthday;
     }
 
-    public String getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public boolean isOnHoliday() {
+        return isOnHoliday;
+    }
+
+    public void setOnHoliday(boolean onHoliday) {
+        isOnHoliday = onHoliday;
+    }
+
+    public Employee getManager() {
+        return manager;
+    }
+
+    public void setManager(Employee manager) {
+        this.manager = manager;
+    }
+
+    public Set<Employee> getEmployeesInChargeOf() {
+        return employeesInChargeOf;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", salary=" + salary +
+                ", birthday=" + birthday +
+                ", address=" + address +
+                ", isOnHoliday=" + isOnHoliday +
+                ", manager=" + manager +
+                '}';
     }
 }
