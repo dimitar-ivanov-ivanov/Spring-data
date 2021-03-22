@@ -1,5 +1,8 @@
 package gameStore.store.models;
 
+import gameStore.store.annotations.Password;
+import gameStore.store.annotations.email.Email;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,12 +31,14 @@ public class User {
             name = "email",
             nullable = false
     )
+    @Email
     private String email;
 
     @Column(
             name = "password",
             nullable = false
     )
+    @Password
     private String password;
 
     @Column(
