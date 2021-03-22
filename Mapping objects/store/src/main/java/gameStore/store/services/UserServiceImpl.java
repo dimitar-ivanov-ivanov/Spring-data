@@ -14,22 +14,26 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
+    private final RoleService roleService;
+
 
     @Autowired
-    private RoleService roleService;
-
-    @Autowired
-    private ModelMapper modelMapper;
+    public UserServiceImpl(UserRepository userRepository,
+                           ModelMapper modelMapper,
+                           RoleService roleService) {
+        this.userRepository = userRepository;
+        this.modelMapper = modelMapper;
+        this.roleService = roleService;
+    }
 
     @Override
     public boolean registerUser(UserRegisterBindingModel userRegisterBindingModel) {
-        User user = this.modelMapper.map(modelMapper, User.class);
+        User user = this.modelMapper.map(userRegisterBindingModel, User.class);
         Role role = this.setUserRole(user);
         if (userRegisterBindingModel.doPasswordsMatch()) {
             user = this.userRepository.saveAndFlush(user);
-            role.getUsers().add(user);
             this.roleService.updateRole(role);
         } else {
             throw new ConfirmedPasswordIsWrongException("Passwords do not match.");

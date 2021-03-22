@@ -3,6 +3,8 @@ package gameStore.store.models.entity;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "games")
@@ -61,7 +63,6 @@ public class Game {
         this.thumbnail = thumbnail;
         this.price = price;
         this.description = description;
-        this.releaseDate = releaseDate;
     }
 
     public long getId() {

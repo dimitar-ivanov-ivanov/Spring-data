@@ -23,9 +23,11 @@ public class Order {
     private User user;
 
     @ManyToMany
-    @JoinTable(name = "orders_games",
+    @JoinTable(
+            name = "orders_games",
             joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "game_id"))
+            inverseJoinColumns = @JoinColumn(name = "game_id")
+    )
     private Set<Game> games;
 
     public Order() {

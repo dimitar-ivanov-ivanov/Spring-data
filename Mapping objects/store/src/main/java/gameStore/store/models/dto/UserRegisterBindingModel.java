@@ -20,7 +20,7 @@ public class UserRegisterBindingModel {
     }
 
     public boolean doPasswordsMatch() {
-        return password.equals(confirmPassword);
+        return password.trim().equals(confirmPassword.trim());
     }
 
     public String getEmail() {

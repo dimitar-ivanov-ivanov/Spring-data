@@ -62,17 +62,19 @@ public class ConsoleRunner {
             Role userRole = new Role("user");
             Role adminRole = new Role("admin");
 
+            user.getRoles().add(adminRole);
+            user.getRoles().add(userRole);
             roleRepository.save(userRole);
             roleRepository.save(adminRole);
 
-            user.getRoles().add(adminRole);
             user.getGames().add(game);
+            gameRepository.save(game);
             userRepository.save(user);
             order.getGames().add(game);
+            orderRepository.save(order);
 
             UserRegisterBindingModel model = new UserRegisterBindingModel("pesho.pesh@gmail.com", "Abc123", "Abc123", "Pesho", "Stoqnov");
             userService.registerUser(model);
-            orderRepository.save(order);
         };
     }
 }

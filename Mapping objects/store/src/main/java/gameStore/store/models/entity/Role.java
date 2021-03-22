@@ -10,22 +10,17 @@ public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "order_id")
+    @Column(name = "role_id")
     private Long id;
 
     @Column(name = "name")
     private String name;
 
-    @ManyToMany
-    private Set<User> users;
-
     public Role() {
-        users = new HashSet<>();
     }
 
     public Role(String name) {
         this.name = name;
-        this.users = new HashSet<>();
     }
 
     public Long getId() {
@@ -42,13 +37,5 @@ public class Role {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
     }
 }
