@@ -63,7 +63,7 @@ public class ConsoleRunner {
             Role adminRole = new Role("admin");
 
             roleRepository.save(userRole);
-            roleRepository.save(adminsRole);
+            roleRepository.save(adminRole);
 
             user.getRoles().add(adminRole);
             user.getGames().add(game);
