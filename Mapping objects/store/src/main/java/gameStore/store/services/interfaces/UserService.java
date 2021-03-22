@@ -1,6 +1,9 @@
 package gameStore.store.services.interfaces;
 
+import gameStore.store.exceptions.ConfirmedPasswordIsWrongException;
+import gameStore.store.models.dto.UserRegisterBindingModel;
+
 public interface UserService {
 
-    void registerUser(String email, String password, String confirmPassword, String firstName, String lastName);
+    boolean registerUser(UserRegisterBindingModel userRegisterBindingModel) throws ConfirmedPasswordIsWrongException;
 }
