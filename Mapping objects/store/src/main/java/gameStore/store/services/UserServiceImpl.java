@@ -2,6 +2,7 @@ package gameStore.store.services;
 
 import gameStore.store.exceptions.ConfirmedPasswordIsWrongException;
 import gameStore.store.models.dto.UserLoginBindingModel;
+import gameStore.store.models.entity.Game;
 import gameStore.store.models.entity.Role;
 import gameStore.store.models.entity.User;
 import gameStore.store.models.dto.UserRegisterBindingModel;
@@ -11,6 +12,8 @@ import gameStore.store.services.interfaces.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -62,6 +65,12 @@ public class UserServiceImpl implements UserService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<Game> getGamesOfLoggedInUser() {
+        List<Game> games = this.userRepository.getGamesOfUser(loggedInUser.getId());
+        return games;
     }
 
     private Role setUserRole(User user) {

@@ -14,4 +14,6 @@ public interface GameService {
     void deleteGame(long id);
 
     List<Object[]> getAllGamesTitlesAndPrices();
+
+    Game getGameById(long id);
 }

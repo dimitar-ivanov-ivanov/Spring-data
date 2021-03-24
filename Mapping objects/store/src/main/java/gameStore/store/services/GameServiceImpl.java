@@ -65,5 +65,10 @@ public class GameServiceImpl implements GameService {
         List<Object[]> titlesAndPrices = this.gameRepository.getGamesTitlesAndPrices();
         return titlesAndPrices;
     }
+
+    @Override
+    public Game getGameById(long id) {
+        return this.gameRepository.findById(id).get();
+    }
 }
 

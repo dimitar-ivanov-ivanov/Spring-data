@@ -115,6 +115,19 @@ public class ConsoleRunner {
                     .forEach(object ->
                             System.out.println("Title: " + object[0] + ", Price: " + object[1])
                     );
+
+
+            System.out.println(gameService.getGameById(1));
+
+
+            userService.loginUser(new UserLoginBindingModel(
+                    "pirate@gmail.com",
+                    "12345"
+            ));
+
+            System.out.println(userService.getGamesOfLoggedInUser());
+
+            // TODO: 3/24/2021 Implement shopping cart 
         };
     }
 }
