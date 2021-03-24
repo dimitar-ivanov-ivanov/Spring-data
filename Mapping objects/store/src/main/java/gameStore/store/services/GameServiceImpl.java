@@ -53,5 +53,10 @@ public class GameServiceImpl implements GameService {
                 model.getDescription()
         );
     }
+
+    @Override
+    public void deleteGame(long id) {
+        this.gameRepository.deleteGame(id);
+    }
 }
 

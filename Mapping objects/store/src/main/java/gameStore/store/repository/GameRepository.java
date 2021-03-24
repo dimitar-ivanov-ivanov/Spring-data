@@ -31,4 +31,9 @@ public interface GameRepository extends JpaRepository<Game, Long> {
                     @Param("price") BigDecimal price,
                     @Param("size") Double size,
                     @Param("description") String description);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE Game AS g WHERE g.id = :id")
+    void deleteGame(@Param("id") long id);
 }

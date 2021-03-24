@@ -7,5 +7,7 @@ public interface GameService {
 
     boolean addGame(GameBindingModel model);
 
-    public void editGame(long id, GameBindingModel model);
+    void editGame(long id, GameBindingModel model);
+
+    void deleteGame(long id);
 }

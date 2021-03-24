@@ -108,6 +108,8 @@ public class ConsoleRunner {
             game2.setPrice(BigDecimal.valueOf(13.5));
 
             gameService.editGame(2, game2);
+
+            gameService.deleteGame(2);
         };
     }
 }
