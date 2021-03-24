@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -57,6 +58,12 @@ public class GameServiceImpl implements GameService {
     @Override
     public void deleteGame(long id) {
         this.gameRepository.deleteGame(id);
+    }
+
+    @Override
+    public List<Object[]> getAllGamesTitlesAndPrices() {
+        List<Object[]> titlesAndPrices = this.gameRepository.getGamesTitlesAndPrices();
+        return titlesAndPrices;
     }
 }
 

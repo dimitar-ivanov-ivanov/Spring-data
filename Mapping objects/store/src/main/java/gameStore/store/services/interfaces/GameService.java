@@ -1,5 +1,7 @@
 package gameStore.store.services.interfaces;
 
+import java.util.*;
+
 import gameStore.store.models.dto.GameBindingModel;
 import gameStore.store.models.entity.Game;
 
@@ -10,4 +12,6 @@ public interface GameService {
     void editGame(long id, GameBindingModel model);
 
     void deleteGame(long id);
+
+    List<Object[]> getAllGamesTitlesAndPrices();
 }

@@ -104,12 +104,17 @@ public class ConsoleRunner {
 
             System.out.println("Aded game: " + gameService.addGame(game2));
 
-            game2.setSize(110.5);
-            game2.setPrice(BigDecimal.valueOf(13.5));
+            //game2.setSize(110.5);
+            //game2.setPrice(BigDecimal.valueOf(13.5));
 
-            gameService.editGame(2, game2);
+            //gameService.editGame(2, game2);
 
-            gameService.deleteGame(2);
+            //gameService.deleteGame(2);
+
+            gameService.getAllGamesTitlesAndPrices()
+                    .forEach(object ->
+                            System.out.println("Title: " + object[0] + ", Price: " + object[1])
+                    );
         };
     }
 }

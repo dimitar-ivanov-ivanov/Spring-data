@@ -1,5 +1,7 @@
 package gameStore.store.repository;
 
+import java.util.List;
+
 import gameStore.store.models.entity.Game;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -36,4 +38,8 @@ public interface GameRepository extends JpaRepository<Game, Long> {
     @Transactional
     @Query("DELETE Game AS g WHERE g.id = :id")
     void deleteGame(@Param("id") long id);
+
+
+    @Query("SELECT g.title,g.price FROM Game AS g")
+    List<Object[]> getGamesTitlesAndPrices();
 }
