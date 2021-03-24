@@ -57,7 +57,7 @@ public class Game {
             scale = 1,
             columnDefinition = "DOUBLE(10,1) DEFAULT 0.0"
     )
-    private int size;
+    private double size;
 
     @Column(
             name = "description",
@@ -74,14 +74,20 @@ public class Game {
     public Game() {
     }
 
-    public Game(String title, String trailer,
-                String thumbnail, BigDecimal price,
-                String description, LocalDate releaseDate) {
+    public Game(@Pattern(regexp = "^[A-Z][a-zA-Z0-9 ]{2,99}$") String title,
+                @Pattern(regexp = "^https:\\/\\/www\\.youtube\\.com\\/watch\\?v=([a-zA-Z]{11})$") String trailer,
+                String thumbnail,
+                BigDecimal price,
+                double size,
+                @Size(min = 20) String description,
+                LocalDate releaseDate) {
         this.title = title;
         this.trailer = trailer;
         this.thumbnail = thumbnail;
         this.price = price;
+        this.size = size;
         this.description = description;
+        this.releaseDate = releaseDate;
     }
 
     public long getId() {

@@ -1,5 +1,6 @@
 package gameStore.store.runners;
 
+import gameStore.store.models.dto.GameBindingModel;
 import gameStore.store.models.dto.UserLoginBindingModel;
 import gameStore.store.models.entity.Game;
 import gameStore.store.models.entity.Order;
@@ -10,6 +11,7 @@ import gameStore.store.repository.GameRepository;
 import gameStore.store.repository.OrderRepository;
 import gameStore.store.repository.RoleRepository;
 import gameStore.store.repository.UserRepository;
+import gameStore.store.services.interfaces.GameService;
 import gameStore.store.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -24,6 +26,9 @@ public class ConsoleRunner {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private GameService gameService;
 
     @Autowired
     private RoleRepository roleRepository;
@@ -49,10 +54,11 @@ public class ConsoleRunner {
 
             Game game = new Game(
                     "Pirates of the Caribbean",
-                    "https://youtube.com/...",
+                    "https://www.youtube.com/watch?v=edYCtaNueQY",
                     "https://google.com/..",
-                    BigDecimal.valueOf(3),
-                    "ddd",
+                    BigDecimal.valueOf(3.5),
+                    100.5,
+                    "This is a game about pirates being on ships etc etc.",
                     LocalDate.of(1990, 12, 12)
             );
 
@@ -86,6 +92,17 @@ public class ConsoleRunner {
 
             boolean isLoggedOut = userService.logout();
             System.out.println("Is logged out: " + isLoggedOut);
+
+            GameBindingModel game2 = new GameBindingModel(
+                    "Pirates of the Caribbean 2",
+                    "https://www.youtube.com/watch?v=edYCtaNueQY",
+                    "https://google.com/..",
+                    BigDecimal.valueOf(3.5),
+                    100.5,
+                    "This is a game about pirates being on ships etc etc."
+            );
+
+            System.out.println("Aded game: " + gameService.addGame(game2));
         };
     }
 }
