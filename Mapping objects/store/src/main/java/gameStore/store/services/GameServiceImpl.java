@@ -70,5 +70,11 @@ public class GameServiceImpl implements GameService {
     public Game getGameById(long id) {
         return this.gameRepository.findById(id).get();
     }
+
+    @Override
+    public Game getGameByTitle(String title) {
+        return this.gameRepository
+                .getGameByTitle(title);
+    }
 }
 

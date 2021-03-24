@@ -52,13 +52,19 @@ public class User {
     )
     private String lastName;
 
-    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(name = "users_games",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "game_id"))
     private Set<Game> games;
 
-    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @JoinTable(name = "cart_games",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "game_id"))
+    private Set<Game> cart;
+
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -67,6 +73,7 @@ public class User {
     public User() {
         this.games = new HashSet<>();
         this.roles = new HashSet<>();
+        this.cart = new HashSet<>();
     }
 
     public User(String email, String password, String firstName, String lastName) {
@@ -76,6 +83,7 @@ public class User {
         this.lastName = lastName;
         this.games = new HashSet<>();
         this.roles = new HashSet<>();
+        this.cart = new HashSet<>();
     }
 
     public long getId() {
@@ -128,6 +136,14 @@ public class User {
 
     public Set<Role> getRoles() {
         return roles;
+    }
+
+    public Set<Game> getCart() {
+        return cart;
+    }
+
+    public void setCart(Set<Game> cart) {
+        this.cart = cart;
     }
 }
 

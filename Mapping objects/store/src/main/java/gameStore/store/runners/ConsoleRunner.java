@@ -2,15 +2,9 @@ package gameStore.store.runners;
 
 import gameStore.store.models.dto.GameBindingModel;
 import gameStore.store.models.dto.UserLoginBindingModel;
-import gameStore.store.models.entity.Game;
-import gameStore.store.models.entity.Order;
-import gameStore.store.models.entity.Role;
-import gameStore.store.models.entity.User;
+import gameStore.store.models.entity.*;
 import gameStore.store.models.dto.UserRegisterBindingModel;
-import gameStore.store.repository.GameRepository;
-import gameStore.store.repository.OrderRepository;
-import gameStore.store.repository.RoleRepository;
-import gameStore.store.repository.UserRepository;
+import gameStore.store.repository.*;
 import gameStore.store.services.interfaces.GameService;
 import gameStore.store.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,7 +96,7 @@ public class ConsoleRunner {
                     "This is a game about pirates being on ships etc etc."
             );
 
-            System.out.println("Aded game: " + gameService.addGame(game2));
+            System.out.println("Added game: " + gameService.addGame(game2));
 
             //game2.setSize(110.5);
             //game2.setPrice(BigDecimal.valueOf(13.5));
@@ -119,7 +113,6 @@ public class ConsoleRunner {
 
             System.out.println(gameService.getGameById(1));
 
-
             userService.loginUser(new UserLoginBindingModel(
                     "pirate@gmail.com",
                     "12345"
@@ -127,7 +120,12 @@ public class ConsoleRunner {
 
             System.out.println(userService.getGamesOfLoggedInUser());
 
-            // TODO: 3/24/2021 Implement shopping cart 
+            userService.addItemToCart("Pirates of the Caribbean");
+            userService.removeItemFromCart("Pirates of the Caribbean");
+
+            userService.addItemToCart("Pirates of the Caribbean 2");
+            userService.buyItemsFromCart();
+
         };
     }
 }

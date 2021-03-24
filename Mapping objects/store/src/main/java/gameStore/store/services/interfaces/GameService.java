@@ -16,4 +16,6 @@ public interface GameService {
     List<Object[]> getAllGamesTitlesAndPrices();
 
     Game getGameById(long id);
+
+    Game getGameByTitle(String title);
 }

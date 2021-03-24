@@ -39,7 +39,8 @@ public interface GameRepository extends JpaRepository<Game, Long> {
     @Query("DELETE Game AS g WHERE g.id = :id")
     void deleteGame(@Param("id") long id);
 
-
     @Query("SELECT g.title,g.price FROM Game AS g")
     List<Object[]> getGamesTitlesAndPrices();
+
+    Game getGameByTitle(String title);
 }
