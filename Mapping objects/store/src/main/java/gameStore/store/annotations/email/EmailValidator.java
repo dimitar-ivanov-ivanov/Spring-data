@@ -1,6 +1,5 @@
 package gameStore.store.annotations.email;
 
-import gameStore.store.annotations.Password;
 import gameStore.store.constants.TextConstants;
 import gameStore.store.validation.AnnotationsUtil;
 

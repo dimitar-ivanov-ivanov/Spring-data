@@ -1,4 +1,4 @@
-package gameStore.store.annotations.email;
+package gameStore.store.annotations.password;
 
 import gameStore.store.constants.TextConstants;
 import org.springframework.stereotype.Component;
@@ -11,24 +11,25 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Component
-@Constraint(validatedBy = EmailValidator.class)
+@Constraint(validatedBy = PasswordValidator.class)
 @Target({ElementType.FIELD, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Email {
+public @interface Password {
 
-    String message()
-            default TextConstants.INVALID_EMAIL_FORMAT;
+    String message() default TextConstants.INVALID_PASSWORD_FORMAT;
 
-    int minUserNameLength() default 1;
+    int minLength() default 6;
 
-    int maxUserNameLength() default 50;
+    int maxLength() default 30;
 
-    int maxHostNameLength() default 50;
+    boolean containsDigit() default false;
 
-    String regex()
-            default "^[\\w]+[\\w._-]+[\\w]+@[\\w]+[\\w.-_]+[\\w]+$";
+    boolean containsLowerCase() default false;
+
+    boolean containsUpperCase() default false;
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
+
 }

@@ -1,6 +1,7 @@
 package gameStore.store.services;
 
 import gameStore.store.exceptions.ConfirmedPasswordIsWrongException;
+import gameStore.store.models.dto.UserLoginBindingModel;
 import gameStore.store.models.entity.Role;
 import gameStore.store.models.entity.User;
 import gameStore.store.models.dto.UserRegisterBindingModel;
@@ -17,7 +18,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final RoleService roleService;
-
+    private User loggedInUser;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
@@ -29,10 +30,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean registerUser(UserRegisterBindingModel userRegisterBindingModel) {
-        User user = this.modelMapper.map(userRegisterBindingModel, User.class);
+    public boolean registerUser(UserRegisterBindingModel model) {
+        User user = this.modelMapper.map(model, User.class);
         Role role = this.setUserRole(user);
-        if (userRegisterBindingModel.doPasswordsMatch()) {
+        if (model.doPasswordsMatch()) {
             user = this.userRepository.saveAndFlush(user);
             this.roleService.updateRole(role);
         } else {
@@ -40,6 +41,27 @@ public class UserServiceImpl implements UserService {
         }
 
         return true;
+    }
+
+    @Override
+    public boolean loginUser(UserLoginBindingModel model) {
+        User user = this.userRepository.getUserByEmailAndPassword(model.getEmail(), model.getPassword());
+
+        if (user != null) {
+            loggedInUser = user;
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean logout() {
+        if (loggedInUser != null) {
+            loggedInUser = null;
+            return true;
+        }
+        return false;
     }
 
     private Role setUserRole(User user) {

@@ -1,6 +1,6 @@
-package gameStore.store.annotations.email;
+package gameStore.store.annotations.url;
 
-import gameStore.store.constants.TextConstants;
+import gameStore.store.annotations.password.PasswordValidator;
 import org.springframework.stereotype.Component;
 
 import javax.validation.Constraint;
@@ -11,24 +11,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Component
-@Constraint(validatedBy = EmailValidator.class)
+@Constraint(validatedBy = URLValidator.class)
 @Target({ElementType.FIELD, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Email {
+public @interface URL {
 
-    String message()
-            default TextConstants.INVALID_EMAIL_FORMAT;
-
-    int minUserNameLength() default 1;
-
-    int maxUserNameLength() default 50;
-
-    int maxHostNameLength() default 50;
-
-    String regex()
-            default "^[\\w]+[\\w._-]+[\\w]+@[\\w]+[\\w.-_]+[\\w]+$";
-
+    String message() default "";
     Class<?>[] groups() default {};
-
     Class<? extends Payload>[] payload() default {};
 }

@@ -1,5 +1,6 @@
 package gameStore.store.runners;
 
+import gameStore.store.models.dto.UserLoginBindingModel;
 import gameStore.store.models.entity.Game;
 import gameStore.store.models.entity.Order;
 import gameStore.store.models.entity.Role;
@@ -74,7 +75,17 @@ public class ConsoleRunner {
             orderRepository.save(order);
 
             UserRegisterBindingModel model = new UserRegisterBindingModel("pesho.pesh@gmail.com", "Abc123", "Abc123", "Pesho", "Stoqnov");
-            userService.registerUser(model);
+            boolean isRegistered = userService.registerUser(model);
+
+            System.out.println("Is registered: " + isRegistered);
+
+            UserLoginBindingModel loginModel = new UserLoginBindingModel("pesho.pesh@gmail.com", "Abc123");
+            boolean isLoggedIn = userService.loginUser(loginModel);
+
+            System.out.println("Is logged in: " + isLoggedIn);
+
+            boolean isLoggedOut = userService.logout();
+            System.out.println("Is logged out: " + isLoggedOut);
         };
     }
 }

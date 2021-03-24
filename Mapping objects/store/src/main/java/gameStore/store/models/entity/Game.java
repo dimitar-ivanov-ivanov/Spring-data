@@ -1,6 +1,10 @@
 package gameStore.store.models.entity;
 
+import gameStore.store.annotations.url.URL;
+
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -24,27 +28,42 @@ public class Game {
             name = "title",
             nullable = false
     )
+    @Pattern(regexp = "^[A-Z][a-zA-Z0-9 ]{2,99}$")
     private String title;
 
     @Column(
             name = "trailer"
     )
+    @Pattern(regexp = "^https:\\/\\/www\\.youtube\\.com\\/watch\\?v=([a-zA-Z]{11})$")
     private String trailer;
 
     @Column(
             name = "thumbnail",
             nullable = false
     )
+    @URL
     private String thumbnail;
 
     @Column(
-            name = "price"
+            name = "price",
+            precision = 20,
+            scale = 2
     )
     private BigDecimal price;
 
     @Column(
-            name = "description"
+            name = "size",
+            precision = 10,
+            scale = 1,
+            columnDefinition = "DOUBLE(10,1) DEFAULT 0.0"
     )
+    private int size;
+
+    @Column(
+            name = "description",
+            columnDefinition = "TEXT"
+    )
+    @Size(min = 20)
     private String description;
 
     @Column(

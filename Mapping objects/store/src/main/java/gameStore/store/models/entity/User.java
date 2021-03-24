@@ -1,8 +1,7 @@
 package gameStore.store.models.entity;
 
-import gameStore.store.annotations.Password;
+import gameStore.store.annotations.password.Password;
 import gameStore.store.annotations.email.Email;
-import gameStore.store.models.entity.Game;
 
 import javax.persistence.*;
 import java.util.HashSet;
