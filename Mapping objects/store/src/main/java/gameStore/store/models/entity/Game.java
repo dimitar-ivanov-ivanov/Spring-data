@@ -34,7 +34,6 @@ public class Game {
     @Column(
             name = "trailer"
     )
-    @Pattern(regexp = "^https:\\/\\/www\\.youtube\\.com\\/watch\\?v=([a-zA-Z]{11})$")
     private String trailer;
 
     @Column(
@@ -144,5 +143,18 @@ public class Game {
 
     public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Game{" +
+                "title='" + title + '\'' +
+                ", trailer='" + trailer + '\'' +
+                ", thumbnail='" + thumbnail + '\'' +
+                ", price=" + price +
+                ", size=" + size +
+                ", description='" + description + '\'' +
+                ", releaseDate=" + releaseDate +
+                '}';
     }
 }

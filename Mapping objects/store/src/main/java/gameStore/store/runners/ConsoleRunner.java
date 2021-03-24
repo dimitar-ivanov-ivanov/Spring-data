@@ -54,7 +54,7 @@ public class ConsoleRunner {
 
             Game game = new Game(
                     "Pirates of the Caribbean",
-                    "https://www.youtube.com/watch?v=edYCtaNueQY",
+                    "edYCtaNueQY",
                     "https://google.com/..",
                     BigDecimal.valueOf(3.5),
                     100.5,
@@ -103,6 +103,11 @@ public class ConsoleRunner {
             );
 
             System.out.println("Aded game: " + gameService.addGame(game2));
+
+            game2.setSize(110.5);
+            game2.setPrice(BigDecimal.valueOf(13.5));
+
+            gameService.editGame(2, game2);
         };
     }
 }
