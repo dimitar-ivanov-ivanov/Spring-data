@@ -31,7 +31,7 @@ public class User {
     @Max(120)
     private int age;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_friends",
             joinColumns = @JoinColumn(name = "user_id"),
