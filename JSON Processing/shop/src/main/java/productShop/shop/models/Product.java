@@ -1,21 +1,22 @@
 package productShop.shop.models;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
 @Getter
 @Setter
-@ToString
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "products")
-public class Product {
+public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
@@ -24,13 +25,14 @@ public class Product {
     @Size(min = 3)
     private String name;
 
+    @NotNull
     private BigDecimal price;
 
     @ManyToOne
     @JoinColumn(name = "buyer_id")
     private User buyer;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "seller_id")
     private User seller;
 
@@ -41,17 +43,5 @@ public class Product {
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private Set<Category> categories;
-
-    public Product() {
-        this.categories = new HashSet<>();
-    }
-
-    public Product(@Size(min = 3) String name, BigDecimal price, User buyer, User seller) {
-        this.name = name;
-        this.price = price;
-        this.buyer = buyer;
-        this.seller = seller;
-        this.categories = new HashSet<>();
-    }
 }
 

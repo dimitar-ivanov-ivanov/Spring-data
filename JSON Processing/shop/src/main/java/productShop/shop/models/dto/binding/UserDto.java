@@ -1,4 +1,4 @@
-package productShop.shop.models.dto;
+package productShop.shop.models.dto.binding;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -6,9 +6,6 @@ import lombok.Setter;
 import lombok.ToString;
 import productShop.shop.models.User;
 
-import javax.persistence.Column;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 

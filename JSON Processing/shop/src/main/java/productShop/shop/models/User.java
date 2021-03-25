@@ -1,8 +1,6 @@
 package productShop.shop.models;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -13,8 +11,9 @@ import java.util.Set;
 
 @Getter
 @Setter
-@ToString
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "users")
 public class User {
 
@@ -44,15 +43,4 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "friend_id")
     )
     private Set<User> friends;
-
-    public User() {
-        this.friends = new HashSet<>();
-    }
-
-    public User(String firstName, @Size(min = 3) String lastName, @Min(1) @Max(120) int age) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.age = age;
-        this.friends = new HashSet<>();
-    }
 }

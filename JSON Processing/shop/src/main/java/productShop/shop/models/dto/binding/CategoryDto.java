@@ -1,21 +1,20 @@
-package productShop.shop.models.dto;
+package productShop.shop.models.dto.binding;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.math.BigDecimal;
 
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
-public class ProductDto {
+public class CategoryDto {
 
-    @Size(min = 3)
+    @NotNull
+    @Size(min = 3, max = 15)
     private String name;
-
-    private BigDecimal price;
 }

@@ -6,27 +6,32 @@ import org.springframework.stereotype.Service;
 import productShop.shop.models.Category;
 import productShop.shop.models.Product;
 import productShop.shop.models.User;
-import productShop.shop.models.dto.ProductDto;
-import productShop.shop.repositories.CategoryRepository;
+import productShop.shop.models.dto.binding.ProductDto;
+import productShop.shop.models.dto.view.ProductNamePriceSellerNameDto;
 import productShop.shop.repositories.ProductRepository;
-import productShop.shop.repositories.UserRepository;
+import productShop.shop.services.interfaces.CategoryService;
 import productShop.shop.services.interfaces.ProductService;
+import productShop.shop.services.interfaces.UserService;
+
+import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
 
     private ProductRepository productRepository;
     private ModelMapper modelMapper;
-    private CategoryRepository categoryRepository;
-    private UserRepository userRepository;
+    private CategoryService categoryService;
+    private UserService userService;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository, ModelMapper modelMapper, CategoryRepository categoryRepository, UserRepository userRepository) {
+    public ProductServiceImpl(ProductRepository productRepository, ModelMapper modelMapper, CategoryService categoryService, UserService userService) {
         this.productRepository = productRepository;
         this.modelMapper = modelMapper;
-        this.categoryRepository = categoryRepository;
-        this.userRepository = userRepository;
+        this.categoryService = categoryService;
+        this.userService = userService;
     }
 
     @Override
@@ -36,9 +41,9 @@ public class ProductServiceImpl implements ProductService {
 
         //add random categories
         for (int i = 0; i < products.length; i++) {
-            Category category = categoryRepository.getRandomEntity();
-            User buyer = userRepository.getRandomEntity();
-            User seller = userRepository.getRandomEntity();
+            Category category = categoryService.getRandomEntity();
+            User buyer = userService.getRandomEntity();
+            User seller = userService.getRandomEntity();
 
             Product product = products[i];
             product.setBuyer(buyer);
@@ -46,5 +51,19 @@ public class ProductServiceImpl implements ProductService {
             product.getCategories().add(category);
             productRepository.save(product);
         }
+    }
+
+    @Override
+    public List<ProductNamePriceSellerNameDto> getProductByPriceBetween(BigDecimal lower, BigDecimal upper) {
+        return this.productRepository
+                .findAllByPriceBetweenOrderByPrice(lower, upper)
+                .stream()
+                .map(product -> {
+                    System.out.println(product.getSeller().getFirstName());
+                    System.out.println(product.getSeller().getLastName());
+                    ProductNamePriceSellerNameDto dto = modelMapper.map(product, ProductNamePriceSellerNameDto.class);
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
 }

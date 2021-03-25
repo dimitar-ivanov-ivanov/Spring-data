@@ -4,7 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import productShop.shop.models.User;
-import productShop.shop.models.dto.UserDto;
+import productShop.shop.models.dto.binding.UserDto;
 import productShop.shop.repositories.UserRepository;
 import productShop.shop.services.interfaces.UserService;
 
@@ -40,5 +40,10 @@ public class UserServiceImpl implements UserService {
         }
 
 
+    }
+
+    @Override
+    public User getRandomEntity() {
+        return userRepository.getRandomEntity();
     }
 }
