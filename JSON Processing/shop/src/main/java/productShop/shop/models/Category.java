@@ -1,10 +1,15 @@
 package productShop.shop.models;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.HashSet;
-import java.util.Set;
 
+@Getter
+@Setter
+@ToString
 @Entity
 @Table(name = "categories")
 public class Category {
