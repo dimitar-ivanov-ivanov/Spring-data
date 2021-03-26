@@ -15,12 +15,12 @@ public class StudentController {
 
     private static final List<Student> STUDENTS = Arrays.asList(
             new Student(1, "Petar"),
-            new Student(2, "Ivan"),
+            new Student(2, "Linda"),
             new Student(3, "Anna")
     );
 
     @GetMapping(path = "{studentId}")
-    public Student getStudent(@PathVariable("studentId") Long studentId) {
+    public Student getStudent(@PathVariable("studentId") Integer studentId) {
         return STUDENTS
                 .stream()
                 .filter(student -> studentId.equals(student.getStudentId()))
