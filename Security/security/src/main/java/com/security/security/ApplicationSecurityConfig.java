@@ -14,6 +14,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import java.util.concurrent.TimeUnit;
 
 @Configuration
 @EnableWebSecurity
@@ -47,7 +50,19 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login").permitAll()
-                .defaultSuccessUrl("/courses", true);
+                .defaultSuccessUrl("/courses", true)
+                .and()
+                .rememberMe() //remember the session id, default to 2 weeks
+                .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(21))
+                .key("somethingverysecure")
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout","GET")) //only is csrf disabled
+                .clearAuthentication(true)
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .logoutSuccessUrl("/login"); //used to generate md5 hash of username and password.
     }
 
     @Bean
