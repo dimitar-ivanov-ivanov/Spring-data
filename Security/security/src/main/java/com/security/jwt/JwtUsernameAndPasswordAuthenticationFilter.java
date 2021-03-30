@@ -4,12 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import javax.crypto.SecretKey;
 import javax.net.ssl.KeyManager;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -24,10 +26,14 @@ import java.util.Date;
 public class JwtUsernameAndPasswordAuthenticationFilter extends
         UsernamePasswordAuthenticationFilter {
 
+    private final JwtConfig jwtConfig;
     private final AuthenticationManager authenticationManager;
 
-    public JwtUsernameAndPasswordAuthenticationFilter(AuthenticationManager authenticationManager) {
+    public JwtUsernameAndPasswordAuthenticationFilter
+            (AuthenticationManager authenticationManager,
+             JwtConfig jwtConfig) {
         this.authenticationManager = authenticationManager;
+        this.jwtConfig = jwtConfig;
     }
 
     @Override
@@ -68,8 +74,6 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends
                                             Authentication authResult)
             throws IOException, ServletException {
 
-        String key = "securesecuresecuresecuresecuresecuresecure";
-
         //generate token
         String token = Jwts.builder()
                 .setSubject(authResult.getName())
@@ -77,12 +81,13 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends
                 .setIssuedAt(new Date())
                 .setExpiration(
                         java.sql.Date.valueOf(LocalDate.now()
-                                .plusWeeks(2))
+                                .plusDays(jwtConfig.getTokenExpirationAfterDays()))
                 )
-                .signWith(SignatureAlgorithm.HS256, key)
+                .signWith(SignatureAlgorithm.HS256, jwtConfig.getSecretKey())
                 .compact();
 
         //send token to the client
-        response.addHeader("Authorization", "Bearer " + token);
+        response.addHeader(jwtConfig.getAuthorizationHeader(),
+                jwtConfig.getTokenPrefix() + token);
     }
 }

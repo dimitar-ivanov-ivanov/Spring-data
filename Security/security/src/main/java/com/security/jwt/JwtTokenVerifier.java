@@ -2,18 +2,19 @@ package com.security.jwt;
 
 import java.util.List;
 
-import com.auth0.jwt.interfaces.Claim;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import org.apache.logging.log4j.util.Strings;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.crypto.SecretKey;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -25,29 +26,37 @@ import java.util.stream.Collectors;
 
 public class JwtTokenVerifier extends OncePerRequestFilter {
 
+    private final JwtConfig jwtConfig;
+
+    @Autowired
+    public JwtTokenVerifier(JwtConfig jwtConfig) {
+        this.jwtConfig = jwtConfig;
+    }
+
     /*
-     This filter is invoker once per request from the client.
-     Get token from the header
-     */
+         This filter is invoker once per request from the client.
+         Get token from the header
+         */
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain)
             throws ServletException, IOException {
 
-        String authorizationHeader = request.getHeader("Authorization");
+        String authorizationHeader = request.getHeader
+                (jwtConfig.getAuthorizationHeader());
 
         /*
            Bad header, don't authenticate
          */
-        if (Strings.isNotEmpty(authorizationHeader) ||
-                !authorizationHeader.startsWith("Bearer ")) {
+        if (Strings.isEmpty(authorizationHeader) ||
+                !authorizationHeader.startsWith(jwtConfig.getTokenPrefix())) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        String key = "securesecuresecuresecuresecuresecuresecure";
-        String token = authorizationHeader.replace("Bearer ", "");
+        String token = authorizationHeader.replace
+                (jwtConfig.getTokenPrefix(), "");
 
         try {
 
@@ -55,7 +64,7 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
               Use Jws because we compacted the header when sending
              */
             Jws<Claims> claims = Jwts.parser()
-                    .setSigningKey(key)
+                    .setSigningKey(jwtConfig.getSecretKey())
                     .parseClaimsJws(token);
 
             Claims body = claims.getBody();
@@ -76,10 +85,17 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
             SecurityContextHolder.getContext()
                     .setAuthentication(authentication);
         } catch (JwtException e) {
+            /*
+             This exception is also thrown is the jwt is expired
+             */
             throw new IllegalStateException(
                     String.format("Token %s cannot be trusted.", token)
             );
         }
 
+        /*
+         Each filter must pass the request,response to the next filter
+         */
+        filterChain.doFilter(request, response);
     }
 }
