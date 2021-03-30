@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.KeyStore;
+import java.security.PrivateKey;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -78,9 +79,10 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends
                         java.sql.Date.valueOf(LocalDate.now()
                                 .plusWeeks(2))
                 )
-                .signWith(SignatureAlgorithm.forName(key), key.getBytes())
+                .signWith(SignatureAlgorithm.HS256, key)
                 .compact();
 
+        //send token to the client
         response.addHeader("Authorization", "Bearer " + token);
     }
 }
